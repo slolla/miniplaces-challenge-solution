@@ -10,7 +10,9 @@ import torch.optim as optim
 from miniplacesdataset import MiniplacesDataset
 from model import Net
 
-'''use to evaluate mode on validation data (with labels)'''
+"""use to evaluate mode on validation data (with labels)"""
+
+
 def test(model, optimizer, epoch, loss, batch_size, mode):
     # determine whether GPU present
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -64,33 +66,16 @@ def test(model, optimizer, epoch, loss, batch_size, mode):
                 top_five += 1
             if truth[i] == top[i][0]:
                 top_one += 1
-            with open("results_val.txt", "a+") as f:
-                f.write(
-                    filename[i]
-                    + " "
-                    + str(top[i][0])
-                    + " "
-                    + str(top[i][1])
-                    + " "
-                    + str(top[i][2])
-                    + " "
-                    + str(top[i][3])
-                    + " "
-                    + str(top[i][4])
-                    + "\n"
-                )
     # average test loss
     test_loss = test_loss / len(test_loader.dataset)
     print("Test Loss: {}".format(round(test_loss, 6)))
     top_5_acc = top_five / len(test_loader.dataset)
-    top_1_acc = top_one/len(test_loader.dataset)
+    top_1_acc = top_one / len(test_loader.dataset)
     print(
         "Top 5 Accuracy: {}, {}/{}".format(
             top_5_acc, top_five, len(test_loader.dataset)
         )
     )
     print(
-        "Top 1 Accuracy: {}, {}/{}".format(
-            top_1_acc, top_one, len(test_loader.dataset)
-        )
+        "Top 1 Accuracy: {}, {}/{}".format(top_1_acc, top_one, len(test_loader.dataset))
     )
